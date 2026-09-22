@@ -1,0 +1,80 @@
+   129	                    <img src={formData.imageUrl} alt="Item" className="w-full h-full object-cover" />
+   130	                  ) : (
+   131	                    <Box size={24} className="text-slate-400" />
+   132	                  )}
+   133	                </div>
+   134	                <div className="flex-1">
+   135	                  <label className="block text-sm font-bold text-slate-800 mb-1">Item Image</label>
+   136	                  <p className="text-xs text-slate-500 mb-2">Used on Kiosk and Online menus.</p>
+   137	                  <input
+   138	                    type="file"
+   139	                    accept="image/*"
+   140	                    onChange={(e) => {
+   141	                      const file = e.target.files?.[0];
+   142	                      if (file) {
+   143	                        const reader = new FileReader();
+   144	                        reader.onloadend = () => {
+   145	                          setFormData({ ...formData, imageUrl: reader.result });
+   146	                        };
+   147	                        reader.readAsDataURL(file);
+   148	                      }
+   149	                    }}
+   150	                    className="block w-full text-xs text-slate-500 file:mr-3 file:py-1 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-bold file:bg-indigo-50 file:text-indigo-700 hover:file:bg-indigo-100"
+   151	                  />
+   152	                  {formData.imageUrl && (
+   153	                    <button 
+   154	                      onClick={() => setFormData({ ...formData, imageUrl: undefined })}
+   155	                      className="text-xs text-red-500 mt-2 font-medium hover:underline"
+   156	                    >
+   157	                      Remove Image
+   158	                    </button>
+   159	                  )}
+   160	                </div>
+   161	              </div>
+   162	
+   163	              <div>
+   164	                <label className="block text-sm font-medium text-slate-700 mb-1">Menu Item Name *</label>
+   165	                <input 
+   166	                  type="text" 
+   167	                  value={formData.name || ''} 
+   168	                  onChange={e => { setFormData({...formData, name: e.target.value}); if (errorMsg) setErrorMsg(''); }} 
+   169	                  className="w-full border border-slate-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-slate-900" 
+   170	                  placeholder="e.g. Mezze Plate" 
+   171	                />
+   172	              </div>
+   173	              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+   174	                <div>
+   175	                  <label className="block text-sm font-medium text-slate-700 mb-1">POS Display Name</label>
+   176	                  <input 
+   177	                    type="text" 
+   178	                    value={formData.posName || ''} 
+   179	                    onChange={e => setFormData({...formData, posName: e.target.value})} 
+   180	                    className="w-full border border-slate-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-slate-900" 
+   181	                    placeholder="Short name for buttons" 
+   182	                  />
+   183	                </div>
+   184	                <div>
+   185	                  <label className="block text-sm font-medium text-slate-700 mb-1">Category</label>
+   186	                  <select 
+   187	                    value={formData.category || ((allCategoryNames || []).length > 0 ? allCategoryNames[0] : 'Uncategorized')}
+   188	                    onChange={e => setFormData({...formData, category: e.target.value})}
+   189	                    className="w-full border border-slate-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-slate-900"
+   190	                  >
+   191	                    {(allCategoryNames || []).map(catName => (
+   192	                      <option key={catName} value={catName}>{catName}</option>
+   193	                    ))}
+   194	                  </select>
+   195	                </div>
+   196	              </div>
+   197	              <div>
+   198	                <label className="block text-sm font-medium text-slate-700 mb-1">Description</label>
+   199	                <textarea 
+   200	                  value={formData.description || ''} 
+   201	                  onChange={e => setFormData({...formData, description: e.target.value})} 
+   202	                  className="w-full border border-slate-300 rounded-lg px-3 py-2 outline-none focus:ring-2 focus:ring-indigo-500 bg-white text-slate-900 h-24 resize-none" 
+   203	                  placeholder="Item description for online menus..."
+   204	                ></textarea>
+   205	              </div>
+   206	            </div>
+   207	          )}
+   208	

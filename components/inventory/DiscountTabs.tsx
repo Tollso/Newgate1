@@ -1,0 +1,179 @@
+import React from 'react';
+import { Tag, Edit2, Copy, Trash2, ShieldAlert, Store, Globe, Sparkles, Plus, Percent, DollarSign, Gift, Search } from 'lucide-react';
+import { DiscountCode } from '../../types';
+
+export const ActiveDiscountsTab = ({ activeDiscounts, searchTerm, setSearchTerm, handleOpenEdit, handleDuplicate, handleDeleteDiscount }: any) => (
+  <div className="space-y-4">
+    <div className="bg-white p-4 rounded-2xl border border-slate-100 shadow-sm flex flex-col sm:flex-row items-center justify-between gap-3">
+      <div className="relative w-full sm:w-80">
+        <Search size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
+        <input 
+          type="text" 
+          placeholder="Search active discounts or codes..."
+          value={searchTerm}
+          onChange={e => setSearchTerm(e.target.value)}
+          className="w-full pl-9 pr-4 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-medium outline-none focus:border-indigo-500"
+        />
+      </div>
+      <p className="text-xs text-slate-500 font-semibold">
+        Showing <span className="font-bold text-slate-800">{activeDiscounts.length}</span> promotional discounts
+      </p>
+    </div>
+
+    <div className="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+      <table className="w-full text-left text-sm">
+        <thead className="bg-slate-50 border-b border-slate-100 text-slate-400 font-bold uppercase text-[10px] tracking-wider">
+          <tr>
+            <th className="p-4">Discount Code & Name</th>
+            <th className="p-4">Type</th>
+            <th className="p-4">Value</th>
+            <th className="p-4">Applicability</th>
+            <th className="p-4">Channels</th>
+            <th className="p-4">Usage</th>
+            <th className="p-4 text-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody className="divide-y divide-slate-100 font-medium text-slate-700">
+          {activeDiscounts.length === 0 ? (
+            <tr>
+              <td colSpan={7} className="p-8 text-center text-slate-400 text-xs font-bold">
+                No discounts found. Click "Create Custom Discount" to add one!
+              </td>
+            </tr>
+          ) : (
+            activeDiscounts.map((d: any) => (
+              <tr key={d.id} className="hover:bg-slate-50/80 transition-colors">
+                <td className="p-4">
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-2 bg-indigo-50 text-indigo-600 rounded-lg shrink-0">
+                      <Tag size={16} />
+                    </div>
+                    <div>
+                      <span className="font-bold text-slate-900 block text-xs">{d.name}</span>
+                      <span className="font-mono text-[11px] text-slate-400 uppercase tracking-wider">{d.code}</span>
+                    </div>
+                  </div>
+                </td>
+                <td className="p-4 text-xs font-semibold">{d.type}</td>
+                <td className="p-4 font-bold text-slate-900 text-xs">
+                  {d.type === 'Percentage' ? `${d.value}%` : `$${d.value.toFixed(2)}`}
+                </td>
+                <td className="p-4 text-xs text-slate-500 font-medium">
+                  {d.applicability || 'Order'}
+                </td>
+                <td className="p-4 text-xs">
+                  <div className="flex items-center gap-2">
+                    {d.showOnPos && <span className="flex items-center gap-1 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md"><Store size={12}/> POS</span>}
+                    {d.showOnline && <span className="flex items-center gap-1 text-[11px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md"><Globe size={12}/> Web</span>}
+                  </div>
+                </td>
+                <td className="p-4 text-xs font-bold text-slate-600">{d.usageCount || 0} uses</td>
+                <td className="p-4 text-right">
+                  <div className="flex justify-end items-center gap-1">
+                    <button 
+                      onClick={() => handleOpenEdit(d)} 
+                      className="p-1.5 text-slate-400 hover:text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
+                      title="Customize Discount"
+                    >
+                      <Edit2 size={15} />
+                    </button>
+                    <button 
+                      onClick={() => handleDuplicate(d)} 
+                      className="p-1.5 text-slate-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                      title="Duplicate Discount"
+                    >
+                      <Copy size={15} />
+                    </button>
+                    <button 
+                      onClick={() => handleDeleteDiscount(d.id)} 
+                      className="p-1.5 text-slate-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors"
+                      title="Delete Discount"
+                    >
+                      <Trash2 size={15} />
+                    </button>
+                  </div>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+  </div>
+);
+
+export const DefaultDiscountsTab = ({ defaultDiscounts, handleOpenCreate, handleOpenEdit, handleDeleteDiscount }: any) => (
+  <div className="space-y-4">
+    <div className="flex items-center justify-between bg-indigo-50/60 p-4 rounded-2xl border border-indigo-100">
+      <div className="flex items-center gap-3">
+        <div className="p-2.5 bg-indigo-600 text-white rounded-xl">
+          <Sparkles size={20} />
+        </div>
+        <div>
+          <h3 className="font-bold text-slate-900 text-xs">POS Quick Discount Bar Presets</h3>
+          <p className="text-slate-500 text-[11px] font-medium">These discounts appear as one-click buttons on cashier registers.</p>
+        </div>
+      </div>
+      <button
+        onClick={() => handleOpenCreate(true)}
+        className="px-4 py-2 bg-indigo-600 text-white font-bold text-xs rounded-xl hover:bg-indigo-700 transition-all flex items-center gap-1.5"
+      >
+        <Plus size={16} /> Add Preset
+      </button>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      {defaultDiscounts.map((d: any) => (
+        <div key={d.id} className="bg-white p-5 rounded-2xl border border-slate-100 shadow-xs hover:border-indigo-200 transition-all space-y-3 relative group">
+          <div className="flex justify-between items-start">
+            <div>
+              <span className="font-extrabold text-slate-900 text-sm block">{d.name}</span>
+              <span className="text-[11px] font-mono text-slate-400 uppercase tracking-wider">{d.code || 'PRESET'}</span>
+            </div>
+            <span className="p-2 rounded-xl bg-indigo-50 text-indigo-600">
+              {d.type === 'Percentage' ? <Percent size={18} /> : <DollarSign size={18} />}
+            </span>
+          </div>
+
+          <div className="flex items-baseline justify-between pt-1">
+            <p className="text-2xl font-black text-indigo-600">{d.type === 'Percentage' ? `${d.value}%` : `$${d.value}`}</p>
+            <span className="text-xs text-slate-400 font-semibold">{d.taxCalculation || 'BeforeTax'}</span>
+          </div>
+
+          <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs">
+            <span className="text-slate-500 font-medium">{d.usageCount || 0} orders discounted</span>
+            <div className="flex items-center gap-1">
+              <button 
+                onClick={() => handleOpenEdit(d)}
+                className="px-2.5 py-1 text-indigo-600 bg-indigo-50 hover:bg-indigo-100 rounded-lg font-bold text-xs transition-colors flex items-center gap-1"
+              >
+                <Edit2 size={13} /> Customize
+              </button>
+              <button 
+                onClick={() => handleDeleteDiscount(d.id)}
+                className="p-1 text-slate-400 hover:text-red-600 rounded-lg"
+              >
+                <Trash2 size={14} />
+              </button>
+            </div>
+          </div>
+        </div>
+      ))}
+    </div>
+  </div>
+);
+
+export const GiftCardsTab = () => (
+  <div className="bg-white p-6 rounded-2xl border border-slate-100 shadow-sm space-y-4">
+    <div className="flex items-center gap-3">
+      <div className="p-2.5 bg-emerald-50 text-emerald-600 rounded-xl">
+        <Gift size={22} />
+      </div>
+      <div>
+        <h3 className="font-bold text-slate-900 text-sm">Gift Card Vouchers & Promotions</h3>
+        <p className="text-slate-500 text-xs font-medium">Issue digital or physical gift card vouchers with custom discount value rules.</p>
+      </div>
+    </div>
+    <p className="text-xs text-slate-600 font-medium">Gift cards integrate with discount codes for promotional gift vouchers. Access detailed gift card logs under the Gift Card Report tab in Reports.</p>
+  </div>
+);

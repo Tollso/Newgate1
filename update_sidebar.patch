@@ -1,0 +1,194 @@
+--- src/App.tsx
++++ src/App.tsx
+@@ -490,40 +490,56 @@
+ 
+ 
+   // --- NAVIGATION CONFIG ---
+-  const menuItems = [
+-    { id: 'New Sale', label: 'Point of Sale', icon: <ShoppingCart size={20} />, action: () => setActiveTab('New Sale') },
+-    { id: 'Home', label: 'Dashboard', icon: <LayoutDashboard size={20} />, action: () => setActiveTab('Home') },
+-    { 
+-      id: 'Sales Activity', label: 'Sales & Orders', icon: <Activity size={20} />, 
+-      subItems: ['Orders', 'Transactions', 'Invoices', 'Recurring Payments', 'Cash Log'] 
+-    },
+-    { 
+-      id: 'Items', label: 'Items & Catalog', icon: <Package size={20} />, 
+-      subItems: ['Item Library', 'Categories', 'Modifier Groups', 'Discounts', 'Printer Labels'] 
+-    },
+-    { 
+-      id: 'Customers', label: 'Customers', icon: <User size={20} />, 
+-      subItems: ['Customer List', 'Feedback'] 
+-    },
+-    { 
+-      id: 'Employees', label: 'Staff Management', icon: <Users size={20} />, 
+-      subItems: ['Employee List', 'Schedule', 'Time Clock'] 
+-    },
+-    { 
+-      id: 'Reports', label: 'Reports', icon: <FileBarChart size={20} />, 
+-      subItems: ['Sales Report', 'Item Sales', 'Employee Sales', 'Tender Types', 'Discounts Report', 'Gift Cards Report', 'Removed Items', 'Peer Insights', 'Requested Reports'] 
+-    },
+-    { 
+-      id: 'Finances', label: 'Finances', icon: <DollarSign size={20} />, 
+-      subItems: ['Overview', 'Closeout', 'Deposits', 'Taxes', 'Statements', 'Pay Bills', 'Disputes'] 
+-    },
+-    { 
+-      id: 'Shortcuts', label: 'Shortcuts', icon: <Command size={20} />, 
+-      action: () => setActiveTab('Shortcuts') 
+-    },
+-    { 
+-      id: 'More', label: 'More', icon: <MoreHorizontal size={20} />, 
+-      subItems: ['Byte Dining', 'App Market'] 
+-    },
++  const menuGroups = [
++    {
++      id: 'core',
++      items: [
++        { id: 'Home', label: 'Home', icon: <LayoutDashboard size={20} />, action: () => setActiveTab('Home') },
++        { 
++          id: 'Reports', label: 'Reports', icon: <FileBarChart size={20} />, 
++          subItems: ['Sales Report', 'Item Sales', 'Employee Sales', 'Tender Types', 'Discounts Report', 'Gift Cards Report', 'Removed Items', 'Peer Insights', 'Requested Reports'] 
++        },
++        { id: 'App Market', label: 'Discover products', icon: <LayoutGrid size={20} />, action: () => setActiveTab('App Market') },
++      ]
++    },
++    {
++      id: 'operations',
++      items: [
++        { 
++          id: 'Employees', label: 'Employees', icon: <Users size={20} />, 
++          subItems: ['Employee List', 'Schedule', 'Time Clock'] 
++        },
++        { 
++          id: 'Finances', label: 'Finance', icon: <DollarSign size={20} />, 
++          subItems: ['Transactions', 'Overview', 'Deposits', 'Taxes', 'Statements', 'Pay Bills', 'Disputes', 'Cash Log', 'Closeout'] 
++        },
++        { 
++          id: 'Menus', label: 'Menus', icon: <Utensils size={20} />, 
++          subItems: ['Item Library', 'Categories', 'Modifier Groups', 'Discounts', 'Printer Labels'] 
++        },
++        { 
++          id: 'Takeout', label: 'Takeout & delivery', icon: <ShoppingBag size={20} />, 
++          subItems: ['Orders', 'Invoices', 'Recurring Payments'] 
++        },
++        { 
++          id: 'Guests', label: 'Guests', icon: <User size={20} />, 
++          subItems: ['Customer List', 'Feedback'] 
++        },
++        { 
++          id: 'Front of house', label: 'Front of house', icon: <MonitorSmartphone size={20} />, 
++          subItems: ['New Sale', 'Byte Dining'] 
++        },
++      ]
++    },
++    {
++      id: 'system',
++      items: [
++        { id: 'Shortcuts', label: 'Shortcuts', icon: <Command size={20} />, action: () => setActiveTab('Shortcuts') },
++        { id: 'Settings', label: 'Settings', icon: <SettingsIcon size={20} />, action: () => setActiveTab('Settings') },
++      ]
++    }
+   ];
+ 
+   // --- RENDER HELPERS ---
+@@ -541,47 +557,51 @@
+       </div>
+ 
+       <nav className="flex-1 overflow-y-auto py-4 space-y-1">
+-        {menuItems.map((item) => (
+-          <div key={item.id}>
+-            {item.subItems ? (
+-              <>
+-                <button
+-                  onClick={() => isSidebarOpen ? toggleSubMenu(item.id) : setActiveTab(item.subItems[0])}
+-                  className={`w-full flex items-center justify-between px-4 py-3 hover:bg-slate-800 hover:text-white transition-colors
+-                    ${activeTab === item.id || (item.subItems && item.subItems.includes(activeTab)) ? 'text-white bg-slate-800' : ''}`}
+-                >
+-                  <div className="flex items-center gap-3">
+-                    {item.icon}
+-                    {isSidebarOpen && <span className="font-medium text-sm">{item.label}</span>}
+-                  </div>
+-                  {isSidebarOpen && (
+-                    expandedMenu === item.id ? <ChevronDown size={16} /> : <ChevronRight size={16} />
+-                  )}
+-                </button>
+-                
+-                {isSidebarOpen && expandedMenu === item.id && (
+-                  <div className="bg-slate-950 py-1">
+-                    {item.subItems.map((sub) => (
+-                      <button
+-                        key={sub}
+-                        onClick={() => setActiveTab(sub)}
+-                        className={`w-full text-left pl-12 pr-4 py-2 text-sm hover:text-white transition-colors
+-                          ${activeTab === sub ? 'text-indigo-400 font-medium' : 'text-slate-500'}`}
+-                      >
+-                        {sub}
+-                      </button>
+-                    ))}
+-                  </div>
+-                )}
+-              </>
+-            ) : (
+-              <button
+-                onClick={item.action}
+-                className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-800 hover:text-white transition-colors
+-                  ${activeTab === item.id ? 'text-white bg-slate-800 border-l-4 border-indigo-500' : ''}`}
+-              >
+-                {item.icon}
+-                {isSidebarOpen && <span className="font-medium text-sm">{item.label}</span>}
+-              </button>
+-            )}
+-          </div>
+-        ))}
++        {menuGroups.map((group, groupIndex) => (
++          <React.Fragment key={group.id}>
++            {group.items.map((item) => (
++              <div key={item.id}>
++                {item.subItems ? (
++                  <>
++                    <button
++                      onClick={() => isSidebarOpen ? toggleSubMenu(item.id) : setActiveTab(item.subItems![0])}
++                      className={`w-full flex items-center justify-between px-4 py-3 hover:bg-slate-800 hover:text-white transition-colors
++                        ${activeTab === item.id || (item.subItems && item.subItems.includes(activeTab)) ? 'text-white bg-slate-800' : ''}`}
++                    >
++                      <div className="flex items-center gap-3">
++                        {item.icon}
++                        {isSidebarOpen && <span className="font-medium text-sm">{item.label}</span>}
++                      </div>
++                      {isSidebarOpen && (
++                        expandedMenu === item.id ? <ChevronDown size={16} /> : <ChevronRight size={16} />
++                      )}
++                    </button>
++                    
++                    {isSidebarOpen && expandedMenu === item.id && (
++                      <div className="bg-slate-950 py-1">
++                        {item.subItems.map((sub) => (
++                          <button
++                            key={sub}
++                            onClick={() => setActiveTab(sub)}
++                            className={`w-full text-left pl-12 pr-4 py-2 text-sm hover:text-white transition-colors
++                              ${activeTab === sub ? 'text-indigo-400 font-medium' : 'text-slate-500'}`}
++                          >
++                            {sub}
++                          </button>
++                        ))}
++                      </div>
++                    )}
++                  </>
++                ) : (
++                  <button
++                    onClick={item.action}
++                    className={`w-full flex items-center gap-3 px-4 py-3 hover:bg-slate-800 hover:text-white transition-colors
++                      ${activeTab === item.id ? 'text-white bg-slate-800 border-l-4 border-indigo-500' : ''}`}
++                  >
++                    {item.icon}
++                    {isSidebarOpen && <span className="font-medium text-sm">{item.label}</span>}
++                  </button>
++                )}
++              </div>
++            ))}
++            {groupIndex < menuGroups.length - 1 && (
++              <div className="mx-4 my-2 border-t border-slate-800" />
++            )}
++          </React.Fragment>
++        ))}
+       </nav>

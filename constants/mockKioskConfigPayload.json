@@ -1,0 +1,77 @@
+{
+  "_id": "kiosk_cfg_88320194",
+  "businessId": "biz_byte_cafe_lumi",
+  "operatingMode": "Hybrid (Both)",
+  "welcomeMessage": "Welcome to Byte Venue! What are you craving today?",
+  "themeColor": "indigo",
+  "layout": "bottom-cart",
+  "requireCustomerName": true,
+  "showItemImages": true,
+  "timeoutSeconds": 60,
+  "customFlowName": "VIP Express Order Flow",
+  "categories": [
+    {
+      "id": "cat_coffee_01",
+      "name": "Espresso & Cold Brews",
+      "sortOrder": 1,
+      "isVisible": true,
+      "icon": "Coffee",
+      "timeAvailability": {
+        "enabled": true,
+        "startHour": 6,
+        "endHour": 18
+      },
+      "assignedItemIds": ["item_latte_101", "item_americano_102", "item_coldbrew_103"]
+    },
+    {
+      "id": "cat_pastry_02",
+      "name": "Artisanal Bakery & Croissants",
+      "sortOrder": 2,
+      "isVisible": true,
+      "icon": "Cake",
+      "timeAvailability": {
+        "enabled": false,
+        "startHour": 6,
+        "endHour": 14
+      },
+      "assignedItemIds": ["item_croissant_201", "item_muffin_202"]
+    },
+    {
+      "id": "cat_kitchen_03",
+      "name": "Gourmet Burgers & Combos",
+      "sortOrder": 3,
+      "isVisible": true,
+      "icon": "Utensils",
+      "timeAvailability": {
+        "enabled": true,
+        "startHour": 11,
+        "endHour": 22
+      },
+      "assignedItemIds": ["item_burger_301", "item_fries_302"]
+    }
+  ],
+  "itemAssignments": [
+    {
+      "itemId": "item_latte_101",
+      "categoryId": "cat_coffee_01",
+      "sortOrder": 1,
+      "isAvailableOnKiosk": true,
+      "customDisplayName": "Signature Oat Milk Latte",
+      "priceOverride": 5.75
+    },
+    {
+      "itemId": "item_americano_102",
+      "categoryId": "cat_coffee_01",
+      "sortOrder": 2,
+      "isAvailableOnKiosk": true
+    },
+    {
+      "itemId": "item_croissant_201",
+      "categoryId": "cat_pastry_02",
+      "sortOrder": 1,
+      "isAvailableOnKiosk": true,
+      "customDisplayName": "Butter Croissant (Warm)"
+    }
+  ],
+  "updatedAt": "2026-08-24T19:55:00.000Z"
+}

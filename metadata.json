@@ -1,0 +1,6 @@
+{
+  "name": "The Newgate Pos",
+  "description": "A comprehensive full-stack style business management suite featuring dashboard analytics, employee and customer management, sales tracking, and AI-driven peer insights using Gemini.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Newgate POS</string>
+    <string name="title_activity_main">Newgate POS</string>
+    <string name="package_name">com.newgate.pos</string>
+    <string name="custom_url_scheme">com.newgate.pos</string>
+    <string name="device_admin_label">Newgate POS Dedicated Device Policy</string>
+    <string name="device_admin_description">Enforces dedicated appliance LockTask, boot auto-launch, and kiosk security policies for Newgate POS.</string>
+</resources>
